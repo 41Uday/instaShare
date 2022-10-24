@@ -1,0 +1,48 @@
+.nf-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  min-height: 100vh;
+}
+
+.nf-img {
+  height: 297px;
+  width: 267px;
+}
+
+.nf-head {
+  font-family: Roboto;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 48px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #262626;
+}
+
+.nf-para {
+  color: #989898;
+  font-family: 'Roboto';
+}
+
+.nf-button {
+  height: 40px;
+  width: 120px;
+  border-radius: 8px;
+  border: none;
+  background-color: #4094ef;
+  font-family: 'Roboto';
+  color: white;
+}
+
+@media screen and (max-width: 568px) {
+  .nf-img {
+    width: 157px;
+    height: 173px;
+  }
+  .nf-head {
+    font-size: 25px;
+  }
+}
