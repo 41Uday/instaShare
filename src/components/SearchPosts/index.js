@@ -6,6 +6,8 @@ import Cookies from 'js-cookie'
 
 import PostItem from '../PostItem'
 
+import SearchContext from '../../context/SearchContext'
+
 import './index.css'
 
 const apiConstantSearches = {
@@ -78,7 +80,7 @@ class SearchPosts extends Component {
           </div>
         ) : (
           <>
-            <h1 className="search-hed">Search Results</h1>
+            <h1 className="search-hed-d">Search Results</h1>
             <div className="post-success">
               <ul className="posts-list-container">
                 {searchesList.map(e => (
@@ -92,9 +94,48 @@ class SearchPosts extends Component {
     )
   }
 
+  searchSuccessDark = () => {
+    const {searchesList} = this.state
+    const finalRes = searchesList.length === 0
+    return (
+      <>
+        {finalRes ? (
+          <div className="no-searches-cont">
+            <img
+              src="https://res.cloudinary.com/ddxkcazf7/image/upload/v1666512074/Group_7_m9mxef.png"
+              alt="search not found"
+              className="img-s-n"
+            />
+            <h1 className="s-hed-2 wh">Search Not Found</h1>
+            <p className="l-para-s search-white">
+              Try different keyword or search again
+            </p>
+          </div>
+        ) : (
+          <div className="search-cont">
+            <h1 className="search-hed-d wh">Search Results</h1>
+            <div className="post-success">
+              <ul className="posts-list-container">
+                {searchesList.map(e => (
+                  <PostItem key={e.postId} post={e} />
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+      </>
+    )
+  }
+
   searchRender = () => (
-    <div className="loader-searches-container" testid="loader">
+    <div className="loader-searches-container">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
+    </div>
+  )
+
+  searchRenderDark = () => (
+    <div className="loader-searches-container">
+      <Loader type="TailSpin" color="white" height={50} width={50} />
     </div>
   )
 
@@ -120,6 +161,26 @@ class SearchPosts extends Component {
     </div>
   )
 
+  searchFailureDark = () => (
+    <div className="failure-stories-container">
+      <img
+        src="https://res.cloudinary.com/ddxkcazf7/image/upload/v1666370726/Group_7522_4_iabvky.png"
+        alt="failure view"
+        className="stories-failure-img"
+      />
+      <p className="h-last search-white">
+        Something went wrong. Please try again
+      </p>
+      <button
+        type="button"
+        className="nf-button"
+        onClick={this.failureSearchButton}
+      >
+        Try again
+      </button>
+    </div>
+  )
+
   searchMethods = () => {
     const {apiStatus} = this.state
 
@@ -135,8 +196,38 @@ class SearchPosts extends Component {
     }
   }
 
+  searchMethodsDark = () => {
+    const {apiStatus} = this.state
+
+    switch (apiStatus) {
+      case apiConstantSearches.success:
+        return this.searchSuccessDark()
+      case apiConstantSearches.failure:
+        return this.searchFailureDark()
+      case apiConstantSearches.progress:
+        return this.searchRenderDark()
+      default:
+        return null
+    }
+  }
+
   render() {
-    return <div>{this.searchMethods()}</div>
+    return (
+      <SearchContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+          return (
+            <>
+              {isDarkTheme ? (
+                <div className="search-cont">{this.searchMethodsDark()}</div>
+              ) : (
+                <div>{this.searchMethods()}</div>
+              )}
+            </>
+          )
+        }}
+      </SearchContext.Consumer>
+    )
   }
 }
 

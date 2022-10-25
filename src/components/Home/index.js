@@ -125,6 +125,19 @@ class Home extends Component {
     )
   }
 
+  postsSuccessDark = () => {
+    const {postsList} = this.state
+    return (
+      <div className="post-success dark-cont">
+        <ul className="posts-list-container">
+          {postsList.map(e => (
+            <PostItem key={e.postId} post={e} />
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
   failurePostsButton = () => {
     this.getPostsList()
   }
@@ -147,9 +160,33 @@ class Home extends Component {
     </div>
   )
 
+  postsFailureDark = () => (
+    <div className="posts-failure-container">
+      <img
+        src="https://res.cloudinary.com/ddxkcazf7/image/upload/v1666350349/alert-triangle_3_rat0j9.png"
+        alt="failure view"
+        className="triangle"
+      />
+      <p className="wh">Something went wrong. Please try again</p>
+      <button
+        type="button"
+        className="nf-button"
+        onClick={this.failurePostsButton}
+      >
+        Try again
+      </button>
+    </div>
+  )
+
   postsRender = () => (
-    <div className="loader-success-container" testid="loader">
+    <div className="loader-success-container">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
+    </div>
+  )
+
+  postsRenderDark = () => (
+    <div className="loader-success-container">
+      <Loader type="TailSpin" color="white" height={50} width={50} />
     </div>
   )
 
@@ -185,29 +222,54 @@ class Home extends Component {
   storiesSuccess = () => {
     const {storiesList} = this.state
     return (
-      <ul>
-        <Slider {...settings}>
-          {storiesList.map(eachLogo => {
-            const {userId, storyUrl, userName} = eachLogo
-            return (
-              <li className="li-item-slider" key={userId}>
-                <img
-                  className="slider-item-img"
-                  src={storyUrl}
-                  alt="user story"
-                />
-                <p className="slider-para">{userName}</p>
-              </li>
-            )
-          })}
-        </Slider>
-      </ul>
+      <Slider {...settings}>
+        {storiesList.map(eachLogo => {
+          const {userId, storyUrl, userName} = eachLogo
+          return (
+            <li className="li-item-slider" key={userId}>
+              <img
+                className="slider-item-img"
+                src={storyUrl}
+                alt="user story"
+              />
+              <p className="slider-para">{userName}</p>
+            </li>
+          )
+        })}
+      </Slider>
+    )
+  }
+
+  storiesSuccessDark = () => {
+    const {storiesList} = this.state
+    return (
+      <Slider {...settings}>
+        {storiesList.map(eachLogo => {
+          const {userId, storyUrl, userName} = eachLogo
+          return (
+            <li className="li-item-slider" key={userId}>
+              <img
+                className="slider-item-img"
+                src={storyUrl}
+                alt="user story"
+              />
+              <p className="slider-para wh">{userName}</p>
+            </li>
+          )
+        })}
+      </Slider>
     )
   }
 
   storiesRender = () => (
-    <div className="loader-container" testid="loader">
+    <div className="loader-container">
       <Loader type="TailSpin" color="#4094EF" height={50} width={50} />
+    </div>
+  )
+
+  storiesRenderDark = () => (
+    <div className="loader-container">
+      <Loader type="TailSpin" color="white" height={50} width={50} />
     </div>
   )
 
@@ -233,6 +295,24 @@ class Home extends Component {
     </div>
   )
 
+  storiesFailureDark = () => (
+    <div className="failure-stories-container">
+      <img
+        src="https://res.cloudinary.com/ddxkcazf7/image/upload/v1666370726/Group_7522_4_iabvky.png"
+        alt="failure view"
+        className="stories-failure-img"
+      />
+      <p className="h-last wh">Something went wrong. Please try again</p>
+      <button
+        type="button"
+        className="nf-button"
+        onClick={this.failureStoriesButton}
+      >
+        Try again
+      </button>
+    </div>
+  )
+
   storiesAllMethods = () => {
     const {storiesApiStatus} = this.state
 
@@ -243,6 +323,21 @@ class Home extends Component {
         return this.storiesFailure()
       case apiConstantStories.progress:
         return this.storiesRender()
+      default:
+        return null
+    }
+  }
+
+  storiesAllMethodsDark = () => {
+    const {storiesApiStatus} = this.state
+
+    switch (storiesApiStatus) {
+      case apiConstantStories.success:
+        return this.storiesSuccessDark()
+      case apiConstantStories.failure:
+        return this.storiesFailureDark()
+      case apiConstantStories.progress:
+        return this.storiesRenderDark()
       default:
         return null
     }
@@ -262,21 +357,55 @@ class Home extends Component {
     }
   }
 
+  postsMethodsDark = () => {
+    const {postsApiStatus} = this.state
+    switch (postsApiStatus) {
+      case apiConstantStories.success:
+        return this.postsSuccessDark()
+      case apiConstantStories.failure:
+        return this.postsFailureDark()
+      case apiConstantStories.progress:
+        return this.postsRenderDark()
+      default:
+        return null
+    }
+  }
+
   render() {
     return (
       <SearchContext.Consumer>
         {value => {
-          const {isSearchValue, searchVal} = value
+          const {isSearchValue, searchVal, isDarkTheme} = value
           const res = searchVal.length !== 0 && isSearchValue
           return (
             <>
-              <Header />
-              {res ? (
-                <SearchPosts inputSearch={searchVal} />
+              {isDarkTheme ? (
+                <div className="dark-cont">
+                  <Header />
+                  {res ? (
+                    <SearchPosts inputSearch={searchVal} />
+                  ) : (
+                    <>
+                      <div className="home-card-1">
+                        {this.storiesAllMethodsDark()}
+                      </div>
+                      <div>{this.postsMethodsDark()}</div>
+                    </>
+                  )}
+                </div>
               ) : (
                 <>
-                  <div className="home-card-1">{this.storiesAllMethods()}</div>
-                  <div>{this.postsMethods()}</div>
+                  <Header />
+                  {res ? (
+                    <SearchPosts inputSearch={searchVal} />
+                  ) : (
+                    <>
+                      <div className="home-card-1">
+                        {this.storiesAllMethods()}
+                      </div>
+                      <div>{this.postsMethods()}</div>
+                    </>
+                  )}
                 </>
               )}
             </>

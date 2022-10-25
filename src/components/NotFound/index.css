@@ -46,3 +46,21 @@
     font-size: 25px;
   }
 }
+
+.wh-f {
+  color: white;
+}
+
+.nf-cont {
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  min-height: 100vh;
+}
+
+.bg {
+  background-color: black;
+}

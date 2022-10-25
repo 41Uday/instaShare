@@ -1,6 +1,12 @@
 import {Component} from 'react'
 
-import {FaSearch} from 'react-icons/fa'
+import {FaSearch, FaMoon} from 'react-icons/fa'
+
+import {RiSunFill} from 'react-icons/ri'
+
+import {VscThreeBars} from 'react-icons/vsc'
+
+import {AiFillCloseCircle} from 'react-icons/ai'
 
 import {Link, withRouter} from 'react-router-dom'
 
@@ -40,7 +46,13 @@ class Header extends Component {
     return (
       <SearchContext.Consumer>
         {value => {
-          const {toggleSearch, searchValMethod, searchVal, toggleEnter} = value
+          const {
+            toggleSearch,
+            searchValMethod,
+            toggleEnter,
+            isDarkTheme,
+            toggleTheme,
+          } = value
           const searchIcon = () => {
             toggleSearch()
           }
@@ -54,116 +66,319 @@ class Header extends Component {
           const onChangeValue = event => {
             searchValMethod(event.target.value)
           }
+
+          const themeButton = () => {
+            toggleTheme()
+          }
+
           return (
             <>
-              <nav className="header-container">
-                <div className="card-1-header">
-                  <Link to="/">
-                    <img
-                      src="https://res.cloudinary.com/ddxkcazf7/image/upload/v1666241657/Standard_Collection_8_2_wuq96n.png"
-                      alt="website logo"
-                      className="login-website-header"
-                    />
-                  </Link>
-                  <h1 className="header-head">Insta Share</h1>
-                </div>
-                <div className="card-2-header">
-                  <div className="card-1-header">
-                    <input
-                      type="search"
-                      className="input-header"
-                      placeholder="Search Caption"
-                      onChange={onChangeValue}
-                      onKeyDown={enterButton}
-                    />
+              {isDarkTheme ? (
+                <div className="sun-cont">
+                  <nav className="header-container sun-cont">
+                    <div className="card-1-header">
+                      <Link to="/">
+                        <img
+                          src="https://res.cloudinary.com/ddxkcazf7/image/upload/v1666241657/Standard_Collection_8_2_wuq96n.png"
+                          alt="website logo"
+                          className="login-website-header"
+                        />
+                      </Link>
+                      <h1 className="header-head sun-hr">Insta Share</h1>
+                    </div>
+                    <div className="card-2-header">
+                      <div className="card-1-header">
+                        <input
+                          type="search"
+                          className="input-header"
+                          placeholder="Search Caption"
+                          onChange={onChangeValue}
+                          onKeyDown={enterButton}
+                        />
 
-                    <button
-                      type="button"
-                      className="search-button"
-                      onClick={searchIcon}
-                      testid="searchIcon"
-                    >
-                      <FaSearch className="col" />
-                    </button>
-                  </div>
-                  <ul className="list-header-container">
-                    <Link to="/" className="li-item-h">
-                      <li>Home</li>
-                    </Link>
-                    <Link to="/my-profile" className="li-item-h">
-                      Profile
-                    </Link>
-                  </ul>
-                  <button
-                    type="button"
-                    className="head-butt"
-                    onClick={this.logoutButton}
-                  >
-                    Logout
-                  </button>
-                </div>
-                <div className="menu-container">
-                  <img
-                    src="https://res.cloudinary.com/ddxkcazf7/image/upload/v1666438550/menu_5_yh6ay7.png"
-                    alt=""
-                    className="menu-img"
-                    onClick={this.threeDots}
-                  />
-                </div>
-              </nav>
+                        <button
+                          type="button"
+                          className="search-button"
+                          onClick={searchIcon}
+                        >
+                          <div className="col">
+                            <FaSearch />
+                          </div>
+                        </button>
+                      </div>
+                      <ul className="list-header-container">
+                        <Link to="/" className="li-item-h li-m sun-hr">
+                          <li>Home</li>
+                        </Link>
+                        <Link
+                          to="/my-profile"
+                          className="li-item-h li-m sun-hr"
+                        >
+                          Profile
+                        </Link>
+                        {isDarkTheme ? (
+                          <button
+                            type="button"
+                            className="theme-butt"
+                            onClick={themeButton}
+                          >
+                            <div className="sun sun-hr">
+                              <RiSunFill />
+                            </div>
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="theme-butt"
+                            onClick={themeButton}
+                          >
+                            <FaMoon />
+                          </button>
+                        )}
+                      </ul>
+                      <button
+                        type="button"
+                        className="head-butt"
+                        onClick={this.logoutButton}
+                      >
+                        Logout
+                      </button>
+                    </div>
+                    <div className="menu-container">
+                      {isDarkTheme ? (
+                        <button
+                          type="button"
+                          className="theme-butt"
+                          onClick={themeButton}
+                        >
+                          <div className="sun sun-hr">
+                            <RiSunFill />
+                          </div>
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="theme-butt"
+                          onClick={themeButton}
+                        >
+                          <div className="moon">
+                            <FaMoon />
+                          </div>
+                        </button>
+                      )}
 
-              {mobileView && (
-                <ul className="header-mobile-view-container">
-                  <Link to="/" className={`li-m ${firstName}`}>
-                    <li>Home</li>
-                  </Link>
-                  <li className="li-m" onClick={this.searchButton}>
-                    Search
-                  </li>
-                  <Link to="/my-profile" className="li-m">
-                    Profile
-                  </Link>
-                  <li>
-                    <button
-                      type="button"
-                      className="head-butt"
-                      onClick={this.logoutButton}
-                    >
-                      Logout
-                    </button>
-                  </li>
-                  <li>
-                    <img
-                      src="https://res.cloudinary.com/ddxkcazf7/image/upload/v1666450736/Shape_6_ulzxqm.png"
-                      alt=""
-                      className="cross"
-                      onClick={this.crossButton}
-                    />
-                  </li>
-                </ul>
-              )}
-              {showSearch && (
-                <div className="mobile-search">
-                  <div className="card-1-header">
-                    <input
-                      type="search"
-                      className="input-header"
-                      placeholder="Search Caption"
-                      onChange={onChangeValue}
-                      onKeyDown={enterButton}
-                    />
-                    <button
-                      type="button"
-                      className="search-button"
-                      onClick={searchIcon}
-                      testid="searchIcon"
-                    >
-                      <FaSearch className="col" />
-                    </button>
-                  </div>
+                      <div className="sun-hr menu-img">
+                        <VscThreeBars
+                          className="three-bars"
+                          onClick={this.threeDots}
+                        />
+                      </div>
+                    </div>
+                  </nav>
+
+                  {mobileView && (
+                    <div className="header-mobile-view-container">
+                      <Link to="/" className={`li-m ${firstName} sun-hr`}>
+                        Home
+                      </Link>
+                      <p className="li-m sun-hr" onClick={this.searchButton}>
+                        Search
+                      </p>
+                      <Link to="/my-profile" className="li-m sun-hr">
+                        Profile
+                      </Link>
+
+                      <button
+                        type="button"
+                        className="head-butt"
+                        onClick={this.logoutButton}
+                      >
+                        Logout
+                      </button>
+                      <div className="sun-hr menu-img">
+                        <AiFillCloseCircle
+                          className="three-bars"
+                          onClick={this.crossButton}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {showSearch && (
+                    <div className="mobile-search">
+                      <div className="card-1-header">
+                        <input
+                          type="search"
+                          className="input-header"
+                          placeholder="Search Caption"
+                          onChange={onChangeValue}
+                          onKeyDown={enterButton}
+                        />
+                        <button
+                          type="button"
+                          className="search-button"
+                          onClick={searchIcon}
+                        >
+                          <div className="col">
+                            <FaSearch />
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <hr className="sun-hr horizontal" />
                 </div>
+              ) : (
+                <>
+                  <nav className="header-container">
+                    <div className="card-1-header">
+                      <Link to="/">
+                        <img
+                          src="https://res.cloudinary.com/ddxkcazf7/image/upload/v1666241657/Standard_Collection_8_2_wuq96n.png"
+                          alt="website logo"
+                          className="login-website-header"
+                        />
+                      </Link>
+                      <h1 className="header-head">Insta Share</h1>
+                    </div>
+                    <div className="card-2-header">
+                      <div className="card-1-header">
+                        <input
+                          type="search"
+                          className="input-header"
+                          placeholder="Search Caption"
+                          onChange={onChangeValue}
+                          onKeyDown={enterButton}
+                        />
+
+                        <button
+                          type="button"
+                          className="search-button"
+                          onClick={searchIcon}
+                        >
+                          <div className="col">
+                            <FaSearch />
+                          </div>
+                        </button>
+                      </div>
+                      <ul className="list-header-container">
+                        <Link to="/" className="li-item-h li-m">
+                          <li>Home</li>
+                        </Link>
+                        <Link to="/my-profile" className="li-item-h li-m">
+                          Profile
+                        </Link>
+                        {isDarkTheme ? (
+                          <button
+                            type="button"
+                            className="theme-butt"
+                            onClick={themeButton}
+                          >
+                            <div className="sun">
+                              <RiSunFill />
+                            </div>
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="theme-butt"
+                            onClick={themeButton}
+                          >
+                            <FaMoon />
+                          </button>
+                        )}
+                      </ul>
+                      <button
+                        type="button"
+                        className="head-butt"
+                        onClick={this.logoutButton}
+                      >
+                        Logout
+                      </button>
+                    </div>
+                    <div className="menu-container">
+                      {isDarkTheme ? (
+                        <button
+                          type="button"
+                          className="theme-butt"
+                          onClick={themeButton}
+                        >
+                          <div className="sun">
+                            <RiSunFill />
+                          </div>
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="theme-butt"
+                          onClick={themeButton}
+                        >
+                          <div className="moon">
+                            <FaMoon />
+                          </div>
+                        </button>
+                      )}
+                      <img
+                        src="https://res.cloudinary.com/ddxkcazf7/image/upload/v1666438550/menu_5_yh6ay7.png"
+                        alt=""
+                        className="menu-img"
+                        onClick={this.threeDots}
+                      />
+                    </div>
+                  </nav>
+
+                  {mobileView && (
+                    <div className="header-mobile-view-container">
+                      <Link to="/" className={`li-m ${firstName}`}>
+                        Home
+                      </Link>
+                      <p className="li-m" onClick={this.searchButton}>
+                        Search
+                      </p>
+                      <Link to="/my-profile" className="li-m">
+                        Profile
+                      </Link>
+
+                      <button
+                        type="button"
+                        className="head-butt"
+                        onClick={this.logoutButton}
+                      >
+                        Logout
+                      </button>
+
+                      <img
+                        src="https://res.cloudinary.com/ddxkcazf7/image/upload/v1666450736/Shape_6_ulzxqm.png"
+                        alt=""
+                        className="cross"
+                        onClick={this.crossButton}
+                      />
+                    </div>
+                  )}
+                  {showSearch && (
+                    <div className="mobile-search">
+                      <div className="card-1-header">
+                        <input
+                          type="search"
+                          className="input-header"
+                          placeholder="Search Caption"
+                          onChange={onChangeValue}
+                          onKeyDown={enterButton}
+                        />
+                        <button
+                          type="button"
+                          className="search-button"
+                          onClick={searchIcon}
+                        >
+                          <div className="col">
+                            <FaSearch />
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <hr />
+                </>
               )}
-              <hr />
             </>
           )
         }}

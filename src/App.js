@@ -19,7 +19,7 @@ import SearchContext from './context/SearchContext'
 import './App.css'
 
 class App extends Component {
-  state = {isSearchValue: false, searchVal: ''}
+  state = {isSearchValue: false, searchVal: '', isDarkTheme: false}
 
   toggleSearch = () => {
     this.setState(prevState => ({isSearchValue: !prevState.isSearchValue}))
@@ -33,16 +33,22 @@ class App extends Component {
     this.setState({searchVal: val})
   }
 
+  toggleTheme = () => {
+    this.setState(prevState => ({isDarkTheme: !prevState.isDarkTheme}))
+  }
+
   render() {
-    const {isSearchValue, searchVal} = this.state
+    const {isSearchValue, searchVal, isDarkTheme} = this.state
     return (
       <SearchContext.Provider
         value={{
           isSearchValue,
           searchVal,
+          isDarkTheme,
           toggleSearch: this.toggleSearch,
           searchValMethod: this.searchValMethod,
           toggleEnter: this.toggleEnter,
+          toggleTheme: this.toggleTheme,
         }}
       >
         <Switch>

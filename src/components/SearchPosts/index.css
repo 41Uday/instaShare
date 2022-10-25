@@ -50,3 +50,43 @@
   height: 400px;
   width: 509px;
 }
+
+@media screen and (max-width: 768px) {
+  .search-hed {
+    display: none;
+  }
+  .l-para-s {
+    font-size: 16px;
+  }
+  .s-hed-2 {
+    font-size: 22px;
+    margin-bottom: -10px;
+  }
+  .img-s-n {
+    width: 90%;
+    height: 250px;
+  }
+  .search-hed-d {
+    display: none;
+  }
+}
+
+.search-cont {
+  background-color: black;
+}
+
+.search-white {
+  color: white;
+}
+
+.search-hed-d {
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 32px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #262626;
+  margin-left: 200px;
+  margin-bottom: -30px;
+}

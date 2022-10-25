@@ -6,6 +6,8 @@ const SearchContext = React.createContext({
   toggleEnter: () => {},
   searchVal: '',
   searchValMethod: () => {},
+  isDarkTheme: false,
+  toggleTheme: () => {},
 })
 
 export default SearchContext
